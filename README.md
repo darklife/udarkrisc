@@ -19,7 +19,7 @@ The beggning: VLIW DSPs on FPGAs, with high optimized ALUs around DSP blocks, in
 
 Lots of different concepts around accumulator-oriented, register bank oriented, VLIW, 16/32-bits, etc most designs were identified just as “core” or “dsp”, but this specific concept was named uRISC for an external presentation on a University. Because there are too much processors called uRISC already, it was renamed to uDarkRISC (micro-DarkRISC).
 
-Designed as a evaluation processor, it was never designed to be used on real products and never tested with complex applications... however, the more conventional approach was used as base for DarkRISCV, a high-performance processor which implements a RV32I/E 100% compatible with GCC compiler!
+Designed as a evaluation processor, it was never designed to be used on real products and never tested with complex applications... however, the more conventional approach was used as base for DarkRISCV, a high-performance processor which implements a RV32I/E 100% compatible with GCC compiler! For more information about DarkRISCV, please check: https://github.com/darklife/darkriscv/tree/master
 
 # Instruction Decode
 
