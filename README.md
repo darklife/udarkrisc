@@ -16,15 +16,15 @@ Designed back in 2015 (years before DarkRISCV), it includes:
 
 # History & Motivation
 
-The beginning: VLIW DSPs on FPGAs, with high optimized ALUs around DSP blocks, in a way that MAC operations can be optimized. However, conventional code was hard to port for VLIW DSPs, so a more general purpose processor was needed...
+The beginning: 16-bit VLIW DSPs on FPGAs, with high optimized ALUs around DSP blocks (18x18 mul w/ 48-bit accumulators), in a way that multiple MAC operations can be optimized in parallel w/ other operations (load, branch, etc). However, conventional code was hard to port for VLIW DSPs, so a more general purpose processor was needed...
 
-Lots of different concepts around accumulator-oriented, register bank oriented, VLIW, 16/32-bits, etc most designs were identified just as “core” or “dsp”, but this specific concept was named uRISC for an external presentation on a University. Because there are too much processors called uRISC already, it was renamed to uDarkRISC (micro-DarkRISC).
+Lots of different concepts around accumulator-oriented, register bank oriented, parallel data/address, VLIW, SIMD, MIMD, vector, 16/24/32/48-bits, etc most designs were identified just as “core” or “dsp”, but this specific concept was named uRISC for an external presentation on a University. Because there are too much processors called uRISC already, it was renamed to uDarkRISC (micro-DarkRISC).
 
 Designed as a evaluation processor, it was never designed to be used on real products and never tested with complex applications... however, the more conventional approach was used as base for DarkRISCV, a high-performance processor which implements a RV32I/E 100% compatible with GCC compiler! For more information about DarkRISCV, please check: https://github.com/darklife/darkriscv/tree/master
 
 # Instruction Decode
 
-The 16bit instruction word is read from the synchronous BRAM and divided in 3 or 4 fields:
+The 16bit instruction word is read from the synchronous BRAM and divided in 3 or 4 fields, depending on the instruction type:
 
 - bits 15:12 are the instruction opcode
 - bits 11:8 are the destination register (DREG)
@@ -72,15 +72,15 @@ Eventually, in the case of BRAM, wait-states are required, but the core does not
 
 The direct supported instructions are:
 
-- ROR/ROL: register right or left rotate
-- ADD/SUB: register add/sub
-- XOR/AND/OR/NOT: register logic operations
-- LOD/STO: register to/from memory operations
-- IMM: immediate data load (8-bit LSB value)
-- MUL: register multiply and right rotate (trying include some DSP support, but without a wide accumulator)
-- BRA/BSR: load PC from PC+immediate data and, optionally, save PC to a register
-- RET: load PC from register data
-- LOP: test register, decrement register and set PC to PC+immediate data
+- ROR/ROL: register right or left rotate.
+- ADD/SUB: register add/sub.
+- XOR/AND/OR/NOT: register logic operations.
+- LOD/STO: register to/from memory operations.
+- IMM: immediate data load (8-bit LSB value).
+- MUL: register multiply and right rotate (trying include some DSP support, but without a wide accumulator).
+- BRA/BSR: load PC from PC+immediate data and, optionally, save PC to a register.
+- RET: load PC from register data.
+- LOP: test register, decrement register and set PC to PC+immediate data.
 
 In addition, there is an Advanced Instruction Set (aka “pseudo-instructions”). 
 
@@ -97,7 +97,7 @@ Since the design was before my contact with RISC-V technology, some important co
 
 # Development System
 
-Limited to an AWK-based assembler that generates a Verilog file w/ the ROM description.
+Limited to an AWK-based assembler that generates a Verilog file w/ the ROM description and waveform inspection of the simulation... I like show the AWK-based assembler because I developed lots and lots of assemblers and converters across my time working on Siemens, both for well-known archs (such as convert 68000 asm to coldfire asm) and obscure and fully proprietary archs (such as multi-way VLIW DSPs), as well all kind of code/data to verilog converters.
 
 # Conclusion
 
