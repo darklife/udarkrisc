@@ -5,6 +5,7 @@ This is an early 16-bit RISC processor designed years before DarkRISCV. Although
 # Features
 
 Designed back in 2015 (years before DarkRISCV), it includes:
+
 - Two state pipelined RISC
 - Flexible 16x16-bit registers
 - 16-bit Program Counter (PC)
@@ -15,7 +16,7 @@ Designed back in 2015 (years before DarkRISCV), it includes:
 
 # History & Motivation
 
-The beggning: VLIW DSPs on FPGAs, with high optimized ALUs around DSP blocks, in a way that MAC operations can be optimized. However, conventional code was hard to port for VLIW DSPs, so a more general purpose processor was needed...
+The beginning: VLIW DSPs on FPGAs, with high optimized ALUs around DSP blocks, in a way that MAC operations can be optimized. However, conventional code was hard to port for VLIW DSPs, so a more general purpose processor was needed...
 
 Lots of different concepts around accumulator-oriented, register bank oriented, VLIW, 16/32-bits, etc most designs were identified just as “core” or “dsp”, but this specific concept was named uRISC for an external presentation on a University. Because there are too much processors called uRISC already, it was renamed to uDarkRISC (micro-DarkRISC).
 
@@ -30,7 +31,7 @@ The 16bit instruction word is read from the synchronous BRAM and divided in 3 or
 - bits 7:4 are the source register (SREG)
 - bits 3:0 are reserved for instruction options
 
-Alternatively, the fields 7:4 can be used to load a signed extended 8-bit constant.
+Alternatively, the field 7:0 can be used to load a signed extended 8-bit constant.
 
 # Instruction Execution
 
@@ -76,7 +77,8 @@ The direct supported instructions are:
 - XOR/AND/OR/NOT: register logic operations
 - LOD/STO: register to/from memory operations
 - IMM: immediate data load (8-bit LSB value)
-- MUL: register multiply and right rotate (trying include some DSP support, but without a wide accumulator) - BRA/BSR: load PC from PC+immediate data and, optionally, save PC to a register
+- MUL: register multiply and right rotate (trying include some DSP support, but without a wide accumulator)
+- BRA/BSR: load PC from PC+immediate data and, optionally, save PC to a register
 - RET: load PC from register data
 - LOP: test register, decrement register and set PC to PC+immediate data
 
@@ -90,6 +92,8 @@ The known pseudo-instructions are:
 - JMP: move the address to a register and RET from this register - INC/DEC: ADDQ/SUBQ with value 1.
 - CLR: xor in the same register.
 - and much more! 
+
+Since the design was before my contact with RISC-V technology, some important concepts are just missing and the set is mostly 68k oriented: ADDQ, SUBQ, BSR, BRA, etc. Even LOP is basically a RISC version of DBcc, which is pretty useful for DSP applications, since LOP supports delayed branch. Although there is no accumulator, the theory around a large accumulator is compute sucessive MUL + ADD, in a way that the values are shifted left. Instead, on this core, the MUL result is shifted right, so it can be accumulated in a separate step, resulting in values that fits on 16-bit only and all LSBs are lost.
 
 # Development System
 
